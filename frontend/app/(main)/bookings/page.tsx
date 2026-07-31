@@ -29,6 +29,7 @@ export default function Page() {
           <h1>预约列表</h1>
           <p className="muted">查看、取消和修改预约。取消后释放的时段可重新预约。</p>
         </div>
+        <Link className="primary-button" href="/bookings/new">新建预约</Link>
       </header>
       {error ? <div className="error-box">{error}</div> : null}
       {loading ? <div className="panel">正在读取预约...</div> : bookings.length === 0 ? <div className="panel">暂无预约。</div> : (

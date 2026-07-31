@@ -16,10 +16,10 @@
 - 本地验收场景验证；
 - 静态 SVG 平面图资源；
 - 本地 Agent runtime 配置位。
+- NAC 云端 Agent artifact、工具契约、运行上下文和 trace 验收。
 
 ### 1.2 本次部署不包含
 
-- 真实 NAC Agent 接入；
 - 真实日历、支付、餐厅、会议室系统接入；
 - 管理员/成员分级权限；
 - 多实例并发控制；
@@ -425,3 +425,78 @@ SQLite 数据库文件应定期备份。备份策略建议：
 - `frontend/lib/api/index.ts` 当前仅定义 API 地址常量；
 - `demo/seed/` 当前仅作为数据目录占位；
 - 真实 Agent runtime、完整 API 路由、前端 API Client 仍需补齐后才能进入正式验收。
+
+## NAC 云端 Agent 接入
+
+RFC-0005 定义了本次 `meeting_assistant` artifact 的云端接入主路径：
+
+```text
+NAC Cloud Runtime
+  -> meeting_assistant
+  -> agent/meeting-agent/custom_tools/meeting_tools.py
+  -> 会务 FastAPI
+  -> 领域服务 / SQLite
+```
+
+`meeting_assistant` artifact 位于 `agent/meeting-agent/`，入口为 `nexau.json`。Agent 工具只封装 HTTP API，不直接访问 SQLite、仓储或领域服务代码。
+
+### 配置项
+
+| 配置项 | 值/示例 | 是否可提交仓库 | 说明 |
+|---|---|---:|---|
+| `NAC_BASE_URL` | `https://nac-beta.xiaobei.top/` | 是 | NAC Agent API base URL |
+| `NAC_ENVIRONMENT` | `hack-8` | 是 | NAC 部署环境 |
+| `NAC_PROJECT_ID` | `e4ebe630-1c26-48d0-8d29-4563375ee959` | 是，但需确认项目公开性 | NAC 项目 ID |
+| `NAC_AK` | `<secret>` | 否 | NAC 访问密钥 |
+| `NAC_SK` | `<secret>` | 否 | NAC 访问密钥 |
+| `MEETING_API_BASE_URL` | `https://hackathon-8.qichangzheng.net` | 否，若含 token 或私有路径时按 secret 处理 | NAC runtime 可达的会务 FastAPI 地址 |
+| `MEETING_API_TIMEOUT_SECONDS` | `30` | 是 | HTTP 超时时间 |
+| `MEETING_WORKSPACE_ID` | `default` | 是 | 会务工作空间 |
+| `MEETING_ACTOR_ID` | `demo-user` | 是 | 写操作 actor |
+| `MEETING_AUTH_TOKEN` | `<secret>` | 否 | 平台用户认证 token |
+| `MEETING_DEMO_CREDENTIALS` | `<secret-json>` | 否 | 显式 demo 登录凭据 |
+| `TIMEZONE` | `Asia/Shanghai` | 是 | 时间解释时区 |
+
+### 部署与验收命令
+
+```bash
+cd agent/meeting-agent
+python3 -m json.tool nexau.json
+python3 -m py_compile custom_tools/meeting_tools.py
+python3 ../../acceptance/scripts/nac-agent-smoke.py
+nac deploy hack-8 --yes --json
+nac chat hack-8 -m '2026年8月5日 10:00-11:00 有哪些小会议室可用？'
+nac smoke hack-8
+nac test hack-8
+```
+
+本地开发或 dry-run：
+
+```bash
+cd agent/meeting-agent
+nac deploy --dry-run
+nac dev
+```
+
+### 验收重点
+
+- Agent 名称：`meeting_assistant`；
+- 模型：`nex-agi/Nex-N2-Pro`；
+- 工具通过 HTTP 调用 FastAPI，不直接访问 SQLite；
+- 写操作携带 `workspace_id`、`actor_id`、`idempotency_key`、`expected_state_revision`、`dry_run`；
+- `check_availability` 是预检接口，当前只发送 FastAPI `AvailabilityCheck` 支持字段；
+- 自然语言配置/预约候选 dry-run 写入前，Agent 应先读取最新 `state_revision` 并显式传入；
+- 响应保留 `ok/error`、`request_id`、`state_revision`、错误码和建议；
+- NAC trace 中不出现 AK/SK、token、demo 凭据明文；
+- 日历、平面图、规则、预约状态与 FastAPI 返回一致。
+
+### 常见故障排查
+
+| 现象 | 可能原因 | 处理 |
+|---|---|---|
+| `TRANSPORT_ERROR` | FastAPI 地址不可达、证书错误、超时 | 检查 `MEETING_API_BASE_URL`、HTTPS 证书、安全组 |
+| `UNAUTHORIZED` / `DEMO_REQUIRED` | token 缺失或 demo 凭据无效 | 使用平台 token，或显式 `auth_meeting_api` 登录 demo 账号 |
+| `STATE_REVISION_CONFLICT` | 状态版本冲突 | 重新读取状态，展示当前 revision 后请用户再次确认 |
+| `BOOKING_CONFLICT` | 预约冲突 | 展示 FastAPI 返回的冲突详情，建议换房间或时段 |
+| `LLM_PROVIDER_ERROR` | 后端自然语言 provider/model/API key 配置缺失 | 检查后端 `LLM_PROVIDER`、`LLM_MODEL`、`NEX_AGI_API_KEY` |
+| NAC trace 缺少工具名或 revision | 工具未走 FastAPI 或响应结构被改写 | 检查 `custom_tools/meeting_tools.py` 是否透传 FastAPI envelope |

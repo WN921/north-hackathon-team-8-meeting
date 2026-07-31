@@ -8,10 +8,10 @@ input_schema:
   $schema: http://json-schema.org/draft-07/schema#
   type: object
   properties:
-    start_time:
+    start_at:
       type: string
       description: RFC3339 start time with timezone.
-    end_time:
+    end_at:
       type: string
       description: RFC3339 end time with timezone.
     target_type:
@@ -29,7 +29,13 @@ input_schema:
       description: Optional purpose text.
     expected_state_revision:
       type: integer
-      description: Optional expected state revision. The tool fills this from context when omitted.
+      description: Optional caller-provided expected state revision. The current FastAPI pre-check endpoint does not require write envelope fields.
+    idempotency_key:
+      type: string
+      description: Optional caller-provided idempotency key. The current FastAPI pre-check endpoint does not require write envelope fields.
+    dry_run:
+      type: boolean
+      description: Optional caller-provided dry-run flag. The current FastAPI pre-check endpoint does not require write envelope fields.
     workspace_id:
       type: string
       description: Optional override for the tool context workspace id.
@@ -39,5 +45,5 @@ input_schema:
     auth_token:
       type: string
       description: Optional bearer token for this call.
-  required: [start_time, end_time, target_type, target_id]
+  required: [start_at, end_at, target_type, target_id]
   additionalProperties: false

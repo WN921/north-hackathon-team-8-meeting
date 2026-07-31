@@ -1,16 +1,17 @@
 {
-  "affects": "",
+  "affects": "NAC Agent artifact, NAC project config, FastAPI backend, docs/rfcs",
   "created": "2026-07-31",
   "priority": "P1",
-  "related": [],
+  "related": [
+    "0001"
+  ],
   "requires": [
-    "0001",
     "0002",
     "0003",
     "0004"
   ],
   "rfc": "0005",
-  "status": "draft",
+  "status": "implemented",
   "tags": [
     "nac",
     "agent",
@@ -24,45 +25,56 @@
       "depends_on": [],
       "id": "T1",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "确认 RFC 范围与实际 NAC artifact 结构"
     },
     {
-      "depends_on": [],
+      "depends_on": [
+        "T1"
+      ],
       "id": "T2",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "固化 meeting_assistant artifact 配置与敏感信息注入"
     },
     {
-      "depends_on": [],
+      "depends_on": [
+        "T2"
+      ],
       "id": "T3",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "接入 NAC 项目配置与 FastAPI 运行上下文"
     },
     {
-      "depends_on": [],
+      "depends_on": [
+        "T2"
+      ],
       "id": "T4",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "完善工具契约、幂等与状态版本行为"
     },
     {
-      "depends_on": [],
+      "depends_on": [
+        "T3",
+        "T4"
+      ],
       "id": "T5",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "打包部署、trace 验收与错误处理"
     },
     {
-      "depends_on": [],
+      "depends_on": [
+        "T5"
+      ],
       "id": "T6",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "更新 README 与运维 checklist"
     }
   ],
-  "title": "NAC Agent 集成会务系统对接模式",
+  "title": "NAC 云端会务 Agent 接入会务系统对接模式",
   "updated": "2026-07-31"
 }

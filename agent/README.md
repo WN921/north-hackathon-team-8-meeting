@@ -30,9 +30,26 @@ NAC Cloud Runtime
 
 Agent 只做对话、意图识别、工具选择、候选解释和错误解释；FastAPI 仍是会务领域规则、冲突校验、幂等和状态版本的唯一执行来源。
 
-## 快速使用
+## 前端 Agent 对话页面
 
-在制品目录中执行：
+仓库新增了 `/agent` 页面，面向普通用户展示 `meeting_assistant` 的流式对话入口：
+
+- 页面路径：`frontend/app/(main)/agent/page.tsx`
+- BFF 路由：`frontend/app/api/nac/chat/route.ts`
+- 调用方式：前端 `POST /api/nac/chat`，服务端 Route Handler 使用 `NAC_TOKEN` / `NAC_GATEWAY_TOKEN` 启动 `nac chat <environment> --stdin --compact` 并将 stdout/stderr 封装为 SSE 流式返回。
+- 默认配置：`NAC_ENVIRONMENT=test`、`NAC_BASE_URL=https://nac-beta.xiaobei.top/`、`NAC_PROJECT_ID=e4ebe630-1c26-48d0-8d29-4563375ee959`。
+- 安全边界：AK/SK 只放在服务端环境变量，不写入浏览器页面、localStorage 或仓库。
+
+本地验证：
+
+```bash
+cd frontend
+npm run build
+
+NAC_AK=... NAC_SK=... bash ../acceptance/scripts/nac_stream_smoke.sh
+```
+
+页面中的示例问题会引导用户通过 Agent 完成查询、规则配置、预约、取消、日历和平面图解释；真正执行会务规则、冲突校验、幂等和状态版本的仍是 FastAPI 后端。
 
 ```bash
 cd agent/meeting-agent

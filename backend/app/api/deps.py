@@ -16,8 +16,6 @@ from app.services.api_service import APIError
 def get_repository() -> Generator[MeetingRepository, None, None]:
     with db_session() as conn:
         repository = MeetingRepository(conn)
-        repository.init_schema()
-        repository.seed_defaults()
         yield repository
 
 

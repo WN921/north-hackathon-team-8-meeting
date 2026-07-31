@@ -1,0 +1,40 @@
+type: tool
+name: query_availability
+description: >-
+  Query available meeting targets for a time window. Prefer this for natural
+  language availability searches; it wraps POST /api/availability:query and
+  returns available targets, excluded targets, reasons, and state metadata.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    start_time:
+      type: string
+      description: RFC3339 start time with timezone, for example 2026-08-05T10:00:00+08:00.
+    end_time:
+      type: string
+      description: RFC3339 end time with timezone.
+    target_type:
+      type: string
+      enum: [room, composite, any]
+      description: Target type to query.
+    target_id:
+      type: string
+      description: Optional specific room or composite id.
+    room_type:
+      type: string
+      description: Optional room type filter such as small, large, activity.
+    purpose:
+      type: string
+      description: Optional purpose text used by the backend query service.
+    workspace_id:
+      type: string
+      description: Optional override for the tool context workspace id.
+    actor_id:
+      type: string
+      description: Optional override for the tool context actor id.
+    auth_token:
+      type: string
+      description: Optional bearer token for this call.
+  required: [start_time, end_time]
+  additionalProperties: false

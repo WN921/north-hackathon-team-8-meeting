@@ -1,0 +1,29 @@
+type: tool
+name: auth_meeting_api
+description: >-
+  Manage explicit demo authentication context for the meeting FastAPI. Use only
+  when the user asks to log in, log out, check the current meeting user, or when
+  no auth token is available and the user explicitly allows demo mode. Never use
+  read-only demo credentials for write operations.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    action:
+      type: string
+      enum: [login, logout, me]
+      description: Authentication action to perform.
+    workspace_id:
+      type: string
+      description: Optional workspace id. Defaults to the tool context or demo default.
+    actor_id:
+      type: string
+      description: Optional actor id. Defaults to the tool context or demo default.
+    token:
+      type: string
+      description: Optional existing auth token.
+    demo_actor:
+      type: boolean
+      description: Whether this request is explicitly in demo mode.
+  required: [action]
+  additionalProperties: false

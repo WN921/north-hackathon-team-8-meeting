@@ -1,0 +1,37 @@
+type: tool
+name: manage_rules
+description: >-
+  Manage rules through the FastAPI rule APIs. Use this for structured rule
+  changes and protected-rule handling; natural-language rule changes can start
+  with configure_meeting_state dry_run=true.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    action:
+      type: string
+      enum: [list, get, create, update, delete]
+      description: Rule management action.
+    rule_id:
+      type: string
+      description: Rule id for get/update/delete actions.
+    payload:
+      type: object
+      description: Request body for create/update actions.
+    expected_state_revision:
+      type: integer
+      description: Optional expected state revision.
+    idempotency_key:
+      type: string
+      description: Optional stable idempotency key. The tool generates one when omitted.
+    workspace_id:
+      type: string
+      description: Optional override for the tool context workspace id.
+    actor_id:
+      type: string
+      description: Optional override for the tool context actor id.
+    auth_token:
+      type: string
+      description: Optional bearer token for this call.
+  required: [action]
+  additionalProperties: false

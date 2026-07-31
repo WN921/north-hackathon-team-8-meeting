@@ -40,6 +40,7 @@
 │   ├── styles/
 │   └── tests/
 ├── acceptance/
+├── agent/
 ├── demo/
 └── diagrams/
 ```
@@ -50,5 +51,6 @@
 - `frontend/`：Next.js 前端源码、页面、组件、API Client、状态管理、静态 SVG 平面图资源。
 - `docs/rfcs/`：RFC 设计源文档；实现和后续设计以 RFC 为单一事实来源。
 - `acceptance/`：端到端验收场景、手动验证脚本、检查清单。
+- `agent/`：NAC Agent 制品目录；当前包含 `meeting-agent/`，用于 NAC 平台调用会务系统工具。
 - `demo/`：演示账号、演示数据、seed 脚本和演示流程。
 - `diagrams/`：架构图、流程图、时序图、平面图源文件。

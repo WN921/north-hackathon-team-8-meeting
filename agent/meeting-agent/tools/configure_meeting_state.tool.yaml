@@ -1,0 +1,36 @@
+type: tool
+name: configure_meeting_state
+description: >-
+  Apply or preview natural-language configuration for rooms, opening schedules,
+  and rules through POST /api/nl/configure. Always use dry_run=true before a
+  user-confirmed write, then dry_run=false after explicit confirmation.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    user_message:
+      type: string
+      description: User's natural-language configuration request.
+    dry_run:
+      type: boolean
+      description: Preview when true, apply when false. Defaults to true.
+    session_id:
+      type: string
+      description: Optional session id used by the backend NL endpoint.
+    expected_state_revision:
+      type: integer
+      description: Optional expected state revision.
+    idempotency_key:
+      type: string
+      description: Optional stable idempotency key. The tool generates one when omitted.
+    workspace_id:
+      type: string
+      description: Optional override for the tool context workspace id.
+    actor_id:
+      type: string
+      description: Optional override for the tool context actor id.
+    auth_token:
+      type: string
+      description: Optional bearer token for this call.
+  required: [user_message, dry_run]
+  additionalProperties: false

@@ -12,7 +12,7 @@
     "0003"
   ],
   "rfc": "0004",
-  "status": "draft",
+  "status": "implemented",
   "tags": [
     "agent",
     "nac",
@@ -24,8 +24,8 @@
     {
       "depends_on": [],
       "id": "T1",
-      "ref": null,
-      "status": "pending",
+      "ref": "agent/meeting-agent/nexau.json, agent/meeting-agent/agent.yaml",
+      "status": "implemented",
       "title": "Agent 制品骨架与配置"
     },
     {
@@ -33,34 +33,36 @@
         "T1"
       ],
       "id": "T2",
-      "ref": null,
-      "status": "pending",
+      "ref": "agent/meeting-agent/skills/meeting-system/",
+      "status": "implemented",
       "title": "会务 skill 知识库"
     },
     {
       "depends_on": [
-        "T2"
+        "T1"
       ],
       "id": "T3",
-      "ref": null,
-      "status": "pending",
+      "ref": "agent/meeting-agent/custom_tools/meeting_tools.py, agent/meeting-agent/tools/",
+      "status": "implemented",
       "title": "工具封装与 API 客户端"
     },
     {
       "depends_on": [
-        "T3"
+        "T1"
       ],
       "id": "T4",
-      "ref": null,
-      "status": "pending",
+      "ref": "agent/meeting-agent/systemprompt.md",
+      "status": "implemented",
       "title": "系统提示词与对话流程"
     },
     {
       "depends_on": [
+        "T2",
+        "T3",
         "T4"
       ],
       "id": "T5",
-      "ref": null,
+      "ref": "agent/README.md",
       "status": "pending",
       "title": "打包部署与验收"
     }

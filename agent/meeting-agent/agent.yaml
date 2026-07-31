@@ -1,0 +1,65 @@
+type: agent
+name: meeting_assistant
+description: 会务系统 Agent，负责通过 FastAPI 工具查询和操作本地会务系统；不处理点餐、支付、真实日历、真实餐厅或真实地图服务。
+system_prompt: ./systemprompt.md
+system_prompt_type: jinja
+llm_config:
+  model: nex-agi/Nex-N2-Pro
+  max_tokens: 12000
+  temperature: 0.2
+tools:
+  - name: read_file
+    yaml_path: tools/read_file.tool.yaml
+    binding: nexau.archs.tool.builtin.file_tools:read_file
+  - name: search_file_content
+    yaml_path: tools/search_file_content.tool.yaml
+    binding: nexau.archs.tool.builtin.file_tools:search_file_content
+  - name: glob
+    yaml_path: tools/Glob.tool.yaml
+    binding: nexau.archs.tool.builtin.file_tools:glob
+  - name: run_shell_command
+    yaml_path: tools/run_shell_command.tool.yaml
+    binding: nexau.archs.tool.builtin.shell_tools:run_shell_command
+  - name: auth_meeting_api
+    yaml_path: tools/auth_meeting_api.tool.yaml
+    binding: custom_tools.meeting_tools:auth_meeting_api
+  - name: get_meeting_state
+    yaml_path: tools/get_meeting_state.tool.yaml
+    binding: custom_tools.meeting_tools:get_meeting_state
+  - name: query_availability
+    yaml_path: tools/query_availability.tool.yaml
+    binding: custom_tools.meeting_tools:query_availability
+  - name: check_availability
+    yaml_path: tools/check_availability.tool.yaml
+    binding: custom_tools.meeting_tools:check_availability
+  - name: nl_booking_candidates
+    yaml_path: tools/nl_booking_candidates.tool.yaml
+    binding: custom_tools.meeting_tools:nl_booking_candidates
+  - name: configure_meeting_state
+    yaml_path: tools/configure_meeting_state.tool.yaml
+    binding: custom_tools.meeting_tools:configure_meeting_state
+  - name: manage_rooms
+    yaml_path: tools/manage_rooms.tool.yaml
+    binding: custom_tools.meeting_tools:manage_rooms
+  - name: manage_rules
+    yaml_path: tools/manage_rules.tool.yaml
+    binding: custom_tools.meeting_tools:manage_rules
+  - name: manage_bookings
+    yaml_path: tools/manage_bookings.tool.yaml
+    binding: custom_tools.meeting_tools:manage_bookings
+  - name: get_calendar
+    yaml_path: tools/get_calendar.tool.yaml
+    binding: custom_tools.meeting_tools:get_calendar
+  - name: get_floor_plan
+    yaml_path: tools/get_floor_plan.tool.yaml
+    binding: custom_tools.meeting_tools:get_floor_plan
+skills:
+  - skills/meeting-system
+
+max_iterations: 18
+max_context_tokens: 128000
+tool_call_mode: structured
+middlewares:
+  - import: nexau.archs.main_sub.execution.middleware.context_compaction:ContextCompactionMiddleware
+    params:
+      threshold: 0.6

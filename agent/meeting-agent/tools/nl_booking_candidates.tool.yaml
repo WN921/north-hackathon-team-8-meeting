@@ -1,0 +1,33 @@
+type: tool
+name: nl_booking_candidates
+description: >-
+  Parse a natural-language booking intent and return booking candidates without
+  creating the booking. Use this before asking the user to choose a candidate;
+  it wraps POST /api/nl/bookings:candidates.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    user_message:
+      type: string
+      description: User's natural-language booking request.
+    session_id:
+      type: string
+      description: Optional session id used by the backend NL endpoint.
+    dry_run:
+      type: boolean
+      description: Backend dry-run flag. Defaults to true.
+    expected_state_revision:
+      type: integer
+      description: Optional expected state revision.
+    workspace_id:
+      type: string
+      description: Optional override for the tool context workspace id.
+    actor_id:
+      type: string
+      description: Optional override for the tool context actor id.
+    auth_token:
+      type: string
+      description: Optional bearer token for this call.
+  required: [user_message]
+  additionalProperties: false

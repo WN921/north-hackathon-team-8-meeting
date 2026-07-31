@@ -1,0 +1,13 @@
+{
+  "agents": {
+    "meeting_assistant": "agent.yaml"
+  },
+  "excluded": [
+    ".git/",
+    ".env",
+    "node_modules/",
+    "__pycache__/",
+    "dist/",
+    ".nac/"
+  ]
+}

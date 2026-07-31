@@ -1,0 +1,40 @@
+type: tool
+name: manage_rooms
+description: >-
+  Manage rooms, composites, and opening schedules through the FastAPI room APIs.
+  Use for structured room changes; use configure_meeting_state for natural
+  language configuration previews and writes.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    action:
+      type: string
+      enum: [list, get, create, update, create_opening_schedule, update_opening_schedule, delete_opening_schedule]
+      description: Room management action.
+    room_id:
+      type: string
+      description: Room id for get/update/opening schedule actions.
+    schedule_id:
+      type: string
+      description: Opening schedule id for update/delete actions.
+    payload:
+      type: object
+      description: Request body for create/update/opening schedule actions.
+    expected_state_revision:
+      type: integer
+      description: Optional expected state revision.
+    idempotency_key:
+      type: string
+      description: Optional stable idempotency key. The tool generates one when omitted.
+    workspace_id:
+      type: string
+      description: Optional override for the tool context workspace id.
+    actor_id:
+      type: string
+      description: Optional override for the tool context actor id.
+    auth_token:
+      type: string
+      description: Optional bearer token for this call.
+  required: [action]
+  additionalProperties: false

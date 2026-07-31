@@ -1,0 +1,29 @@
+type: tool
+name: get_meeting_state
+description: >-
+  Read the meeting system state through FastAPI: health, rooms, composites, and
+  rule summary. Use this before explaining current state or before write
+  operations that need the latest state_revision.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    include_health:
+      type: boolean
+      description: Include GET /api/health. Defaults to true.
+    include_rooms:
+      type: boolean
+      description: Include GET /api/rooms. Defaults to true.
+    include_rules:
+      type: boolean
+      description: Include GET /api/rules. Defaults to true.
+    workspace_id:
+      type: string
+      description: Optional override for the tool context workspace id.
+    actor_id:
+      type: string
+      description: Optional override for the tool context actor id.
+    auth_token:
+      type: string
+      description: Optional bearer token for this call.
+  additionalProperties: false

@@ -12,3 +12,4 @@
 - 取消预约后对应时段释放，并可重新预约。
 - 平面图状态必须与日历、规则和预约状态一致。
 - Swagger/OpenAPI 必须能展示所有 API、请求和响应模型。
+- NAC Agent 制品验收：见 `agent/README.md` 与 `docs/rfcs/0004-nac-meeting-agent-artifact.md`，覆盖制品解析、工具绑定、FastAPI 调用、状态版本、幂等和 trace 验收。

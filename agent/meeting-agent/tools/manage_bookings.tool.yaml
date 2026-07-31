@@ -1,0 +1,38 @@
+type: tool
+name: manage_bookings
+description: >-
+  Manage bookings through FastAPI. Before create or update, prefer
+  nl_booking_candidates or check_availability and ask for explicit confirmation.
+  This tool adds workspace_id, actor_id, idempotency_key, and
+  expected_state_revision for write operations.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    action:
+      type: string
+      enum: [list, get, create, cancel, update]
+      description: Booking management action.
+    booking_id:
+      type: string
+      description: Booking id for get/cancel/update actions.
+    payload:
+      type: object
+      description: Request body for create/update actions.
+    expected_state_revision:
+      type: integer
+      description: Optional expected state revision.
+    idempotency_key:
+      type: string
+      description: Optional stable idempotency key. The tool generates one when omitted.
+    workspace_id:
+      type: string
+      description: Optional override for the tool context workspace id.
+    actor_id:
+      type: string
+      description: Optional override for the tool context actor id.
+    auth_token:
+      type: string
+      description: Optional bearer token for this call.
+  required: [action]
+  additionalProperties: false

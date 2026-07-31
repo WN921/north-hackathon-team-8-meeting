@@ -1,0 +1,20 @@
+type: tool
+name: search_file_content
+description: >-
+  Search text within files in a directory. Prefer this over shell grep/rg for
+  content search inside artifact files and loaded skill references.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    dir_path:
+      type: string
+      description: Directory to search in.
+    pattern:
+      type: string
+      description: Regular expression to search for.
+    include:
+      type: string
+      description: Optional glob pattern, for example *.md.
+  required: [dir_path, pattern]
+  additionalProperties: false

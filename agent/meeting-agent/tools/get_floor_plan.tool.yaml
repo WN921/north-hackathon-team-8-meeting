@@ -1,0 +1,23 @@
+type: tool
+name: get_floor_plan
+description: >-
+  Read floor-plan nodes and status through GET /api/floor-plan. Use when the
+  user asks about the map, visual room status, disabled rooms, or consistency
+  between calendar/rules/bookings.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    date:
+      type: string
+      description: Optional local date for status context, for example 2026-08-03.
+    workspace_id:
+      type: string
+      description: Optional override for the tool context workspace id.
+    actor_id:
+      type: string
+      description: Optional override for the tool context actor id.
+    auth_token:
+      type: string
+      description: Optional bearer token for this call.
+  additionalProperties: false

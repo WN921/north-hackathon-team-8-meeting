@@ -1,0 +1,17 @@
+type: tool
+name: Glob
+description: >-
+  Find files by glob pattern. Use only for filename/path matching, not for
+  searching file contents.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    pattern:
+      type: string
+      description: Glob pattern to match files.
+    dir_path:
+      type: string
+      description: Optional base directory.
+  required: [pattern]
+  additionalProperties: false

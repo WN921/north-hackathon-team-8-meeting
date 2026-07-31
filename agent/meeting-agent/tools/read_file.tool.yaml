@@ -1,0 +1,20 @@
+type: tool
+name: read_file
+description: >-
+  Read a file from the artifact or loaded skill references. Use for reading
+  systemprompt, tool definitions, or meeting-system references after LoadSkill.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    file_path:
+      type: string
+      description: Path to the file to read.
+    offset:
+      type: integer
+      description: Optional zero-based line offset.
+    limit:
+      type: integer
+      description: Optional maximum number of lines to read.
+  required: [file_path]
+  additionalProperties: false

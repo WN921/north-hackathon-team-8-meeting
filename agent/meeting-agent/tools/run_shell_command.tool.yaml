@@ -1,0 +1,20 @@
+type: tool
+name: run_shell_command
+description: >-
+  Run a shell command for artifact-local checks only. Do not use it to access
+  SQLite, bypass FastAPI, or modify production services.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    command:
+      type: string
+      description: Shell command to execute.
+    timeout_ms:
+      type: integer
+      description: Optional command timeout in milliseconds.
+    dir_path:
+      type: string
+      description: Optional working directory.
+  required: [command]
+  additionalProperties: false

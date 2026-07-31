@@ -1,0 +1,43 @@
+type: tool
+name: check_availability
+description: >-
+  Pre-check a selected target and time window before creating or changing a
+  booking. It wraps POST /api/availability:check and returns conflicts,
+  excluded targets, reason codes, and state metadata.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    start_time:
+      type: string
+      description: RFC3339 start time with timezone.
+    end_time:
+      type: string
+      description: RFC3339 end time with timezone.
+    target_type:
+      type: string
+      enum: [room, composite]
+      description: Target type to check.
+    target_id:
+      type: string
+      description: Room or composite id to check.
+    booking_id:
+      type: string
+      description: Optional existing booking id when changing a booking.
+    purpose:
+      type: string
+      description: Optional purpose text.
+    expected_state_revision:
+      type: integer
+      description: Optional expected state revision. The tool fills this from context when omitted.
+    workspace_id:
+      type: string
+      description: Optional override for the tool context workspace id.
+    actor_id:
+      type: string
+      description: Optional override for the tool context actor id.
+    auth_token:
+      type: string
+      description: Optional bearer token for this call.
+  required: [start_time, end_time, target_type, target_id]
+  additionalProperties: false

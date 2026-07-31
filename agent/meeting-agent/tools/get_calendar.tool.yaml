@@ -1,0 +1,33 @@
+type: tool
+name: get_calendar
+description: >-
+  Read calendar state for rooms or composites through GET /api/calendar. Use for
+  date/time-window status and conflict explanation.
+input_schema:
+  $schema: http://json-schema.org/draft-07/schema#
+  type: object
+  properties:
+    start_date:
+      type: string
+      description: Start date in local date format, for example 2026-08-03.
+    end_date:
+      type: string
+      description: Optional end date. Defaults to start_date.
+    target_type:
+      type: string
+      enum: [room, composite, any]
+      description: Optional target type.
+    target_id:
+      type: string
+      description: Optional room or composite id.
+    workspace_id:
+      type: string
+      description: Optional override for the tool context workspace id.
+    actor_id:
+      type: string
+      description: Optional override for the tool context actor id.
+    auth_token:
+      type: string
+      description: Optional bearer token for this call.
+  required: [start_date]
+  additionalProperties: false

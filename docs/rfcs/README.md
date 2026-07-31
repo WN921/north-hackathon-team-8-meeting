@@ -31,6 +31,7 @@ RFC 用于记录技术设计决策。每个 RFC 描述一个特定功能、架�
 | [RFC-0002](./0002-fastapi-api-agent-contract.md) | FastAPI 后端 API 与 Agent Tool 契约 | draft | P1 | requires RFC-0001; related RFC-0003；覆盖本地 Agent runtime、nex-agi/Nex-N2-Pro、OpenAPI 契约和完整 API 端口 |
 | [RFC-0003](./0003-nextjs-frontend-interaction.md) | Next.js 前端交互设计 | draft | P1 | requires RFC-0001, RFC-0002；覆盖本地 Web 启动入口、真实前端操作闭环、Agent 驱动页面和静态 SVG 平面图 |
 | [RFC-0004](./0004-nac-meeting-agent-artifact.md) | NAC 会务 Agent 制品与工具契约 | implemented | P1 | requires RFC-0001, RFC-0002, RFC-0003；覆盖 NAC Agent 制品、系统提示词、工具契约和平台对话验收 |
+| [RFC-0005](./0005-nac-agent-integration.md) | NAC Agent 集成会务系统对接模式 | draft | P1 | requires RFC-0001, RFC-0002, RFC-0003, RFC-0004；覆盖实际 meeting_assistant artifact、NAC 项目配置、FastAPI 工具调用和 trace 验收 |
 
 ## RFC 编号规则
 

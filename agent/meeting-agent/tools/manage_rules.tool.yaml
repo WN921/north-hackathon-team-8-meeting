@@ -24,6 +24,9 @@ input_schema:
     idempotency_key:
       type: string
       description: Optional stable idempotency key. The tool generates one when omitted.
+    dry_run:
+      type: boolean
+      description: Optional dry-run flag. When omitted the tool does not force a value.
     workspace_id:
       type: string
       description: Optional override for the tool context workspace id.

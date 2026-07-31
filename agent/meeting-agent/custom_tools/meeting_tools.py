@@ -329,38 +329,42 @@ def get_meeting_state(
 
 
 def query_availability(
-    start_time: str,
-    end_time: str,
-    target_type: str | None = None,
-    target_id: str | None = None,
+    start_at: str,
+    end_at: str,
     room_type: str | None = None,
-    purpose: str | None = None,
+    capacity: int | None = None,
+    equipment: list[str] | None = None,
+    allow_merge: bool = False,
     workspace_id: str | None = None,
     actor_id: str | None = None,
     auth_token: str | None = None,
 ) -> dict[str, Any]:
     """Query available targets for a time window."""
     context = _read_context(workspace_id=workspace_id, actor_id=actor_id, auth_token=auth_token)
-    payload = {"start_time": start_time, "end_time": end_time}
-    if target_type:
-        payload["target_type"] = target_type
-    if target_id:
-        payload["target_id"] = target_id
-    if room_type:
-        payload["room_type"] = room_type
-    if purpose:
-        payload["purpose"] = purpose
+    payload = {
+        "start_at": start_at,
+        "end_at": end_at,
+        "timezone": context["timezone"],
+        "room_types": [room_type] if room_type else [],
+        "capacity": capacity,
+        "equipment": equipment or [],
+        "allow_merge": allow_merge,
+    }
     return _http("query_availability", "POST", "/api/availability:query", context, payload)
 
 
 def check_availability(
-    start_time: str,
-    end_time: str,
+    start_at: str,
+    end_at: str,
     target_type: str,
     target_id: str,
     booking_id: str | None = None,
     purpose: str | None = None,
+    capacity: int | None = None,
+    equipment: list[str] | None = None,
     expected_state_revision: int | None = None,
+    idempotency_key: str | None = None,
+    dry_run: bool | None = None,
     workspace_id: str | None = None,
     actor_id: str | None = None,
     auth_token: str | None = None,
@@ -368,17 +372,17 @@ def check_availability(
     """Pre-check a selected target before booking changes."""
     context = _read_context(workspace_id=workspace_id, actor_id=actor_id, auth_token=auth_token)
     payload = {
-        "start_time": start_time,
-        "end_time": end_time,
+        "start_at": start_at,
+        "end_at": end_at,
         "target_type": target_type,
         "target_id": target_id,
+        "capacity": capacity,
+        "equipment": equipment or [],
     }
     if booking_id:
         payload["booking_id"] = booking_id
     if purpose:
         payload["purpose"] = purpose
-    if expected_state_revision is not None:
-        payload["expected_state_revision"] = expected_state_revision
     return _http("check_availability", "POST", "/api/availability:check", context, payload)
 
 
@@ -387,17 +391,24 @@ def nl_booking_candidates(
     session_id: str | None = None,
     dry_run: bool | None = True,
     expected_state_revision: int | None = None,
+    idempotency_key: str | None = None,
     workspace_id: str | None = None,
     actor_id: str | None = None,
     auth_token: str | None = None,
 ) -> dict[str, Any]:
     """Parse natural-language booking intent and return candidates."""
     context = _read_context(workspace_id=workspace_id, actor_id=actor_id, auth_token=auth_token)
-    payload = {"user_message": user_message}
+    payload = {"utterance": user_message}
     if session_id:
         payload["session_id"] = session_id
-    if dry_run is not None:
-        payload["dry_run"] = dry_run
+    payload = _with_common_write_fields(
+        context,
+        payload,
+        "nl_booking_candidates",
+        None,
+        idempotency_key=idempotency_key,
+        dry_run=dry_run,
+    )
     if expected_state_revision is not None:
         payload["expected_state_revision"] = expected_state_revision
     return _http("nl_booking_candidates", "POST", "/api/nl/bookings:candidates", context, payload)
@@ -438,6 +449,7 @@ def manage_rooms(
     payload: dict[str, Any] | None = None,
     expected_state_revision: int | None = None,
     idempotency_key: str | None = None,
+    dry_run: bool | None = None,
     workspace_id: str | None = None,
     actor_id: str | None = None,
     auth_token: str | None = None,
@@ -450,27 +462,27 @@ def manage_rooms(
     if action == "get" and room_id:
         return _http("manage_rooms", "GET", f"/api/rooms/{room_id}", context)
     if action == "create":
-        body = _with_common_write_fields(context, payload, "create_room", None, idempotency_key=idempotency_key)
+        body = _with_common_write_fields(context, payload, "create_room", None, idempotency_key=idempotency_key, dry_run=dry_run)
         if expected_state_revision is not None:
             body["expected_state_revision"] = expected_state_revision
         return _http("manage_rooms", "POST", "/api/rooms", context, body)
     if action == "update" and room_id:
-        body = _with_common_write_fields(context, payload, "update_room", room_id, idempotency_key=idempotency_key)
+        body = _with_common_write_fields(context, payload, "update_room", room_id, idempotency_key=idempotency_key, dry_run=dry_run)
         if expected_state_revision is not None:
             body["expected_state_revision"] = expected_state_revision
         return _http("manage_rooms", "PATCH", f"/api/rooms/{room_id}", context, body)
     if action == "create_opening_schedule" and room_id:
-        body = _with_common_write_fields(context, payload, "create_opening_schedule", room_id, idempotency_key=idempotency_key)
+        body = _with_common_write_fields(context, payload, "create_opening_schedule", room_id, idempotency_key=idempotency_key, dry_run=dry_run)
         if expected_state_revision is not None:
             body["expected_state_revision"] = expected_state_revision
         return _http("manage_rooms", "POST", f"/api/rooms/{room_id}/opening-schedules", context, body)
     if action == "update_opening_schedule" and room_id and schedule_id:
-        body = _with_common_write_fields(context, payload, "update_opening_schedule", f"{room_id}:{schedule_id}", idempotency_key=idempotency_key)
+        body = _with_common_write_fields(context, payload, "update_opening_schedule", f"{room_id}:{schedule_id}", idempotency_key=idempotency_key, dry_run=dry_run)
         if expected_state_revision is not None:
             body["expected_state_revision"] = expected_state_revision
         return _http("manage_rooms", "PATCH", f"/api/rooms/{room_id}/opening-schedules/{schedule_id}", context, body)
     if action == "delete_opening_schedule" and room_id and schedule_id:
-        body = _with_common_write_fields(context, {}, "delete_opening_schedule", f"{room_id}:{schedule_id}", idempotency_key=idempotency_key)
+        body = _with_common_write_fields(context, {}, "delete_opening_schedule", f"{room_id}:{schedule_id}", idempotency_key=idempotency_key, dry_run=dry_run)
         if expected_state_revision is not None:
             body["expected_state_revision"] = expected_state_revision
         return _http("manage_rooms", "DELETE", f"/api/rooms/{room_id}/opening-schedules/{schedule_id}", context, body)
@@ -483,6 +495,7 @@ def manage_rules(
     payload: dict[str, Any] | None = None,
     expected_state_revision: int | None = None,
     idempotency_key: str | None = None,
+    dry_run: bool | None = None,
     workspace_id: str | None = None,
     actor_id: str | None = None,
     auth_token: str | None = None,
@@ -495,17 +508,17 @@ def manage_rules(
     if action == "get" and rule_id:
         return _http("manage_rules", "GET", f"/api/rules/{rule_id}", context)
     if action == "create":
-        body = _with_common_write_fields(context, payload, "create_rule", None, idempotency_key=idempotency_key)
+        body = _with_common_write_fields(context, payload, "create_rule", None, idempotency_key=idempotency_key, dry_run=dry_run)
         if expected_state_revision is not None:
             body["expected_state_revision"] = expected_state_revision
         return _http("manage_rules", "POST", "/api/rules", context, body)
     if action == "update" and rule_id:
-        body = _with_common_write_fields(context, payload, "update_rule", rule_id, idempotency_key=idempotency_key)
+        body = _with_common_write_fields(context, payload, "update_rule", rule_id, idempotency_key=idempotency_key, dry_run=dry_run)
         if expected_state_revision is not None:
             body["expected_state_revision"] = expected_state_revision
         return _http("manage_rules", "PATCH", f"/api/rules/{rule_id}", context, body)
     if action == "delete" and rule_id:
-        body = _with_common_write_fields(context, {}, "delete_rule", rule_id, idempotency_key=idempotency_key)
+        body = _with_common_write_fields(context, {}, "delete_rule", rule_id, idempotency_key=idempotency_key, dry_run=dry_run)
         if expected_state_revision is not None:
             body["expected_state_revision"] = expected_state_revision
         return _http("manage_rules", "DELETE", f"/api/rules/{rule_id}", context, body)
@@ -518,6 +531,7 @@ def manage_bookings(
     payload: dict[str, Any] | None = None,
     expected_state_revision: int | None = None,
     idempotency_key: str | None = None,
+    dry_run: bool | None = None,
     workspace_id: str | None = None,
     actor_id: str | None = None,
     auth_token: str | None = None,
@@ -530,17 +544,17 @@ def manage_bookings(
     if action == "get" and booking_id:
         return _http("manage_bookings", "GET", f"/api/bookings/{booking_id}", context)
     if action == "create":
-        body = _with_common_write_fields(context, payload, "create_booking", None, idempotency_key=idempotency_key)
+        body = _with_common_write_fields(context, payload, "create_booking", None, idempotency_key=idempotency_key, dry_run=dry_run)
         if expected_state_revision is not None:
             body["expected_state_revision"] = expected_state_revision
         return _http("manage_bookings", "POST", "/api/bookings", context, body)
     if action == "cancel" and booking_id:
-        body = _with_common_write_fields(context, {}, "cancel_booking", booking_id, idempotency_key=idempotency_key)
+        body = _with_common_write_fields(context, {}, "cancel_booking", booking_id, idempotency_key=idempotency_key, dry_run=dry_run)
         if expected_state_revision is not None:
             body["expected_state_revision"] = expected_state_revision
         return _http("manage_bookings", "POST", f"/api/bookings/{booking_id}/cancel", context, body)
     if action == "update" and booking_id:
-        body = _with_common_write_fields(context, payload, "update_booking", booking_id, idempotency_key=idempotency_key)
+        body = _with_common_write_fields(context, payload, "update_booking", booking_id, idempotency_key=idempotency_key, dry_run=dry_run)
         if expected_state_revision is not None:
             body["expected_state_revision"] = expected_state_revision
         return _http("manage_bookings", "PATCH", f"/api/bookings/{booking_id}", context, body)

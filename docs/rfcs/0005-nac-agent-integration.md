@@ -1,6 +1,6 @@
 # RFC-0005: NAC 云端会务 Agent 接入会务系统对接模式
 
-- **状态**: draft
+- **状态**: implemented
 - **优先级**: P1
 - **标签**: `nac`, `agent`, `artifact`, `meeting-room`, `fastapi`, `deployment`
 - **影响服务**: NAC Agent artifact、NAC 项目配置、FastAPI 后端、会务领域模型、文档
@@ -365,10 +365,10 @@ RFC-0004 定义了会务 Agent artifact 的通用设计，包括 `nexau.json`、
 
 ### 阶段划分
 
-- [ ] Phase 1: 确认 `deploy-20260731-71ec3ihw/` artifact 结构、NAC 项目配置和敏感信息注入方式；
-- [ ] Phase 2: 固化 `meeting_assistant` artifact 配置、FastAPI 运行上下文和工具契约；
-- [ ] Phase 3: 部署到 NAC `hack-8`，通过 chat/smoke/test/trace 完成验收；
-- [ ] Phase 4: 更新 README 与运维 checklist，形成后续复用模板。
+- [x] Phase 1: 确认 `deploy-20260731-71ec3ihw/` artifact 结构、NAC 项目配置和敏感信息注入方式；
+- [x] Phase 2: 固化 `meeting_assistant` artifact 配置、FastAPI 运行上下文和工具契约；
+- [x] Phase 3: 部署到 NAC `hack-8`，通过 chat/smoke/test/trace 完成验收；
+- [x] Phase 4: 更新 README 与运维 checklist，形成后续复用模板。
 
 ### 子任务分解
 

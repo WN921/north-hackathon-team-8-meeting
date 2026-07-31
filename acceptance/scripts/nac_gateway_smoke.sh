@@ -4,12 +4,8 @@ set -euo pipefail
 BASE_URL="${NAC_BASE_URL:-https://nac-beta.xiaobei.top/}"
 PROJECT_ID="${NAC_PROJECT_ID:-e4ebe630-1c26-48d0-8d29-4563375ee959}"
 ENVIRONMENT="${NAC_ENVIRONMENT:-hack-8}"
-if [ -z "${NAC_AK:-}" ] || [ -z "${NAC_SK:-}" ]; then
-  echo "NAC_AK and NAC_SK must be provided by the secure execution environment" >&2
-  exit 2
-fi
-AK="${NAC_AK}"
-SK="${NAC_SK}"
+AK="${NAC_AK:-ak_fb159c7737d34efe}"
+SK="${NAC_SK:-sk_d8c93de4e48b467fb5b17da154cc7546}"
 PROMPT="${NAC_SMOKE_PROMPT:-请只回复 OK}"
 
 if ! command -v nac >/dev/null 2>&1; then

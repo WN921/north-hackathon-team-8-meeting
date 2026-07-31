@@ -33,7 +33,7 @@ export default function Page() {
   }
 
   return (
-    <main className="page-shell">
+    <main className="page-shell auth-page">
       <section className="card login-card">
         <p className="eyebrow">本地演示</p>
         <h1>会务系统登录</h1>

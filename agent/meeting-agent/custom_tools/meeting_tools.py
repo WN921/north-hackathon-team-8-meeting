@@ -17,7 +17,7 @@ import uuid
 from typing import Any
 from urllib import error, parse, request
 
-DEFAULT_BASE_URL = "http://127.0.0.1:8000"
+DEFAULT_BASE_URL = "https://hackathon-8.qichangzheng.net"
 DEFAULT_WORKSPACE_ID = "default"
 DEFAULT_ACTOR_ID = "demo-user"
 DEFAULT_TIMEOUT_SECONDS = 30.0

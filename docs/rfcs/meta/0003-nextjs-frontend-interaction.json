@@ -1,0 +1,77 @@
+{
+  "affects": "frontend/app, frontend/components, frontend/lib/api, frontend/styles, frontend/tests",
+  "created": "2026-07-31",
+  "priority": "P1",
+  "related": [
+    "0002"
+  ],
+  "requires": [
+    "0001",
+    "0002"
+  ],
+  "rfc": "0003",
+  "status": "draft",
+  "tags": [
+    "frontend",
+    "nextjs",
+    "ui"
+  ],
+  "tasks": [
+    {
+      "depends_on": [],
+      "id": "T1",
+      "ref": null,
+      "status": "pending",
+      "title": "建立 Next.js 项目与 API Client"
+    },
+    {
+      "depends_on": [
+        "T1"
+      ],
+      "id": "T2",
+      "ref": null,
+      "status": "pending",
+      "title": "实现登录页与认证状态"
+    },
+    {
+      "depends_on": [
+        "T2"
+      ],
+      "id": "T3",
+      "ref": null,
+      "status": "pending",
+      "title": "实现会议室列表与日历视图"
+    },
+    {
+      "depends_on": [
+        "T2"
+      ],
+      "id": "T4",
+      "ref": null,
+      "status": "pending",
+      "title": "实现自然语言配置与预约候选页面"
+    },
+    {
+      "depends_on": [
+        "T3",
+        "T4"
+      ],
+      "id": "T5",
+      "ref": null,
+      "status": "pending",
+      "title": "实现预约创建取消修改流程"
+    },
+    {
+      "depends_on": [
+        "T3",
+        "T5"
+      ],
+      "id": "T6",
+      "ref": null,
+      "status": "pending",
+      "title": "实现静态 SVG 平面图"
+    }
+  ],
+  "title": "Next.js 前端交互设计",
+  "updated": "2026-07-31"
+}

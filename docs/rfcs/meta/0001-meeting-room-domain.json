@@ -1,0 +1,71 @@
+{
+  "affects": "domain, repositories, services, tests",
+  "created": "2026-07-31",
+  "priority": "P1",
+  "related": [],
+  "requires": [],
+  "rfc": "0001",
+  "status": "draft",
+  "tags": [
+    "meeting-room",
+    "domain",
+    "rule-engine"
+  ],
+  "tasks": [
+    {
+      "depends_on": [],
+      "id": "T1",
+      "ref": null,
+      "status": "pending",
+      "title": "建立领域模型与 SQLite 仓储"
+    },
+    {
+      "depends_on": [
+        "T1"
+      ],
+      "id": "T2",
+      "ref": null,
+      "status": "pending",
+      "title": "初始化固定空间和规则"
+    },
+    {
+      "depends_on": [
+        "T2"
+      ],
+      "id": "T3",
+      "ref": null,
+      "status": "pending",
+      "title": "实现规则引擎与时间冲突校验"
+    },
+    {
+      "depends_on": [
+        "T3"
+      ],
+      "id": "T4",
+      "ref": null,
+      "status": "pending",
+      "title": "实现组合会议室约束"
+    },
+    {
+      "depends_on": [
+        "T3",
+        "T4"
+      ],
+      "id": "T5",
+      "ref": null,
+      "status": "pending",
+      "title": "实现预约创建与取消"
+    },
+    {
+      "depends_on": [
+        "T5"
+      ],
+      "id": "T6",
+      "ref": null,
+      "status": "pending",
+      "title": "实现规则连续修改与状态版本"
+    }
+  ],
+  "title": "会务系统领域模型与规则引擎",
+  "updated": "2026-07-31"
+}

@@ -1,0 +1,77 @@
+{
+  "affects": "backend/app, backend/api, backend/auth, backend/services, backend/tests",
+  "created": "2026-07-31",
+  "priority": "P1",
+  "related": [
+    "0003"
+  ],
+  "requires": [
+    "0001"
+  ],
+  "rfc": "0002",
+  "status": "draft",
+  "tags": [
+    "backend",
+    "api",
+    "agent-tool",
+    "fastapi"
+  ],
+  "tasks": [
+    {
+      "depends_on": [],
+      "id": "T1",
+      "ref": null,
+      "status": "pending",
+      "title": "建立 FastAPI 项目与 SQLite 连接"
+    },
+    {
+      "depends_on": [
+        "T1"
+      ],
+      "id": "T2",
+      "ref": null,
+      "status": "pending",
+      "title": "实现本地登录与公共契约"
+    },
+    {
+      "depends_on": [
+        "T2"
+      ],
+      "id": "T3",
+      "ref": null,
+      "status": "pending",
+      "title": "实现空间与日历查询 API"
+    },
+    {
+      "depends_on": [
+        "T2"
+      ],
+      "id": "T4",
+      "ref": null,
+      "status": "pending",
+      "title": "实现自然语言配置与规则管理 API"
+    },
+    {
+      "depends_on": [
+        "T3",
+        "T4"
+      ],
+      "id": "T5",
+      "ref": null,
+      "status": "pending",
+      "title": "实现预约创建取消修改 API"
+    },
+    {
+      "depends_on": [
+        "T3",
+        "T5"
+      ],
+      "id": "T6",
+      "ref": null,
+      "status": "pending",
+      "title": "实现平面图与 OpenAPI 文档"
+    }
+  ],
+  "title": "FastAPI 后端 API 与 Agent Tool 契约",
+  "updated": "2026-07-31"
+}

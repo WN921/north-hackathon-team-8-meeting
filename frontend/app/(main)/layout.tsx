@@ -9,10 +9,11 @@ const navItems = [
   { href: "/", label: "首页" },
   { href: "/rooms", label: "会议室" },
   { href: "/calendar", label: "日历" },
+  { href: "/floor-plan", label: "平面图" },
   { href: "/nl/query", label: "自然语言" },
+  { href: "/agent", label: "Agent 对话" },
   { href: "/rules", label: "规则配置" },
   { href: "/bookings", label: "预约" },
-  { href: "/floor-plan", label: "平面图" },
 ];
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {

@@ -6,6 +6,7 @@
 
 ## 当前内容
 
+- `docs/deployment.md`：会务系统正式部署手册，覆盖本地开发、演示验收、后端/前端启动、SQLite 初始化、运维和检查清单。
 - `.skills/ui-ux-pro-max/`：UI/UX Pro Max Skill
 - `.skills/taste/`：Taste Skill
 
@@ -15,7 +16,9 @@
 /
 ├── AGENTS.md
 ├── README.md
-├── docs/rfcs/
+├── docs/
+│   ├── deployment.md
+│   └── rfcs/
 ├── backend/
 │   ├── pyproject.toml
 │   ├── app/
@@ -47,6 +50,7 @@
 
 ## 目录职责
 
+- `docs/deployment.md`：会务系统正式部署手册，覆盖本地开发、演示验收、后端/前端启动、SQLite 初始化、运维和检查清单。
 - `backend/`：FastAPI 后端源码、领域模型、规则引擎、SQLite 仓储、API 路由、后端测试。
 - `frontend/`：Next.js 前端源码、页面、组件、API Client、状态管理、静态 SVG 平面图资源。
 - `docs/rfcs/`：RFC 设计源文档；实现和后续设计以 RFC 为单一事实来源。

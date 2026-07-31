@@ -50,7 +50,7 @@ export default function Page() {
         <div>
           <p className="eyebrow">平面图</p>
           <h1>会议室平面图</h1>
-          <p className="muted">使用静态 SVG 布局，叠加 FastAPI 返回的规则、预约和组合空间状态。</p>
+          <p className="muted">用列表展示房间和组合空间状态；固定占用、规则占用和预约冲突均由后端返回。</p>
         </div>
       </header>
       <form className="card filters" onSubmit={load}>
@@ -66,36 +66,48 @@ export default function Page() {
           <span><i className="status-dot partial" /> 部分占用</span>
           <span><i className="status-dot composite" /> 组合空间</span>
         </div>
-        <div className="svg-scroll">
-          <svg className="floor-plan-svg" viewBox="0 0 1000 620" role="img" aria-label="会议室平面图">
-            <rect x="20" y="20" width="960" height="580" rx="24" fill="#f8fafc" stroke="#cbd5e1" />
-            {items.map((item) => {
-              const position = item.position;
-              if (!position) return null;
-              const fill = statusFill(item.status);
-              return (
-                <Link key={item.id} href={`/calendar?target_type=${item.member_room_ids ? "composite" : "room"}&target_id=${encodeURIComponent(item.id)}&date=${date}`}>
-                  <g>
-                    <rect x={position.x} y={position.y} width={position.width} height={position.height} rx="12" fill={fill} stroke="#475569" strokeWidth="2" />
-                    <text x={position.x + 16} y={position.y + 32} className="floor-plan-label">{item.name}</text>
-                    <text x={position.x + 16} y={position.y + 56} className="floor-plan-caption">{item.message}</text>
-                  </g>
-                </Link>
-              );
-            })}
-          </svg>
-        </div>
+        {items.length === 0 ? <div className="panel">暂无平面图数据。</div> : (
+          <div className="floor-plan-grid">
+            {items.map((item) => (
+              <Link className={`floor-plan-card status-${statusClass(item.status)}`} key={item.id} href={`/calendar?target_type=${item.member_room_ids ? "composite" : "room"}&target_id=${encodeURIComponent(item.id)}&date=${date}`}>
+                <span className="floor-plan-emoji" aria-hidden="true">{statusEmoji(item.status)}</span>
+                <span>
+                  <strong className="floor-plan-name">{item.name}</strong>
+                  <small className="floor-plan-message">{item.message || statusLabel(item.status)}</small>
+                </span>
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );
 }
 
-function statusFill(status: string) {
-  if (status === "available") return "#dcfce7";
-  if (status === "booked") return "#fee2e2";
-  if (status === "blocked_by_rule") return "#fef3c7";
-  if (status === "fixed_unavailable") return "#fde68a";
-  if (status === "maintenance") return "#fecaca";
-  if (status === "composite_booked") return "#ddd6fe";
-  return "#dbeafe";
+function statusClass(status: string) {
+  if (status === "available") return "available";
+  if (status === "booked" || status === "maintenance") return "unavailable";
+  if (status === "blocked_by_rule" || status === "fixed_unavailable") return "partial";
+  if (status === "composite_booked") return "composite";
+  return "available";
+}
+
+function statusEmoji(status: string) {
+  if (status === "available") return "🟢";
+  if (status === "booked") return "🔴";
+  if (status === "blocked_by_rule") return "🟡";
+  if (status === "fixed_unavailable") return "🟡";
+  if (status === "maintenance") return "🔴";
+  if (status === "composite_booked") return "🟣";
+  return "🔵";
+}
+
+function statusLabel(status: string) {
+  if (status === "available") return "可用";
+  if (status === "booked") return "已预约";
+  if (status === "blocked_by_rule") return "规则占用";
+  if (status === "fixed_unavailable") return "固定不可用";
+  if (status === "maintenance") return "维修中";
+  if (status === "composite_booked") return "组合占用";
+  return "状态未知";
 }

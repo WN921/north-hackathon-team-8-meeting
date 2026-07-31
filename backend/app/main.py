@@ -83,11 +83,11 @@ async def http_error_handler(request: Request, exc: Exception) -> JSONResponse:
 
 @app.get("/api/health")
 def health() -> dict[str, object]:
-    repository = MeetingRepository()
-    repository.init_schema()
-    repository.seed_defaults()
-    revision = repository.get_state_revision()
-    repository.close()
+    with db_session() as conn:
+        repository = MeetingRepository(conn)
+        repository.init_schema()
+        repository.seed_defaults()
+        revision = repository.get_state_revision()
     llm = llm_runtime_config()
     expected = expected_llm_config()
     provider_ok = llm["provider"] == expected["provider"]

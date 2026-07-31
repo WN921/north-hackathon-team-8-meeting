@@ -533,28 +533,70 @@ a:focus-visible {
   font-size: 14px;
 }
 
-.svg-scroll {
-  overflow: auto;
+.floor-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.floor-plan-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 88px;
+  padding: 16px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(255, 255, 255, 0.92));
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: var(--shadow-soft);
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
-.floor-plan-svg {
-  display: block;
-  min-width: 900px;
-  height: auto;
+.floor-plan-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(245, 158, 11, 0.36);
+  background: #ffffff;
 }
 
-.floor-plan-label {
-  fill: var(--text);
+.floor-plan-card.available {
+  border-color: rgba(22, 163, 74, 0.22);
+}
+
+.floor-plan-card.unavailable {
+  border-color: rgba(220, 38, 38, 0.22);
+}
+
+.floor-plan-card.partial {
+  border-color: rgba(217, 119, 6, 0.28);
+}
+
+.floor-plan-card.composite {
+  border-color: rgba(124, 58, 237, 0.22);
+}
+
+.floor-plan-emoji {
+  display: inline-grid;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(226, 232, 240, 0.72);
   font-size: 18px;
-  font-weight: 900;
 }
 
-.floor-plan-caption {
-  fill: var(--muted-strong);
+.floor-plan-name {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.floor-plan-message {
+  display: block;
+  color: var(--muted);
   font-size: 13px;
+  line-height: 1.45;
 }
 
 .table-wrap {

@@ -30,6 +30,7 @@ RFC 用于记录技术设计决策。每个 RFC 描述一个特定功能、架�
 | [RFC-0001](./0001-meeting-room-domain.md) | 会务系统领域模型与规则引擎 | draft | P1 | 定义 Topic A 会务领域、固定空间关系、规则状态和前端/API/Agent 共享语义 |
 | [RFC-0002](./0002-fastapi-api-agent-contract.md) | FastAPI 后端 API 与 Agent Tool 契约 | draft | P1 | requires RFC-0001; related RFC-0003；覆盖本地 Agent runtime、nex-agi/Nex-N2-Pro、OpenAPI 契约和完整 API 端口 |
 | [RFC-0003](./0003-nextjs-frontend-interaction.md) | Next.js 前端交互设计 | draft | P1 | requires RFC-0001, RFC-0002；覆盖本地 Web 启动入口、真实前端操作闭环、Agent 驱动页面和静态 SVG 平面图 |
+| [RFC-0004](./0004-nac-meeting-agent-artifact.md) | NAC 会务 Agent 制品与工具契约 | draft | P1 | requires RFC-0001, RFC-0002, RFC-0003；覆盖 NAC Agent 制品、系统提示词、工具契约和平台对话验收 |
 
 ## RFC 编号规则
 
@@ -41,7 +42,7 @@ RFC 用于记录技术设计决策。每个 RFC 描述一个特定功能、架�
 ## 本期会务系统范围摘要
 
 - 只覆盖 Topic A 会务系统，不覆盖 Topic B 点餐系统。
-- 本地可运行 Web 应用由 Next.js、FastAPI 和本地 Agent runtime 组成。
+- 本地可运行 Web 应用由 Next.js、FastAPI 和本地 Agent runtime 组成，并可由 NAC Agent 制品通过 FastAPI 操作同一会务状态。
 - 自然语言配置、自然语言预约候选、结构化状态写入和冲突校验都必须真实进入系统状态。
 - LLM API 固定使用 nex-agi/Nex-N2-Pro。
 - 固定空间关系不可改变：活动室午餐不可预约；会议室一/二可合并；503/505/506 是小会议室；505 每周二全天不可用。

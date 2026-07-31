@@ -1,0 +1,70 @@
+{
+  "affects": "agent artifact, NAC runtime, FastAPI API client tools, docs/rfcs",
+  "created": "2026-07-31",
+  "priority": "P1",
+  "related": [
+    "0002",
+    "0003"
+  ],
+  "requires": [
+    "0001",
+    "0002",
+    "0003"
+  ],
+  "rfc": "0004",
+  "status": "draft",
+  "tags": [
+    "agent",
+    "nac",
+    "artifact",
+    "tool-contract",
+    "meeting-room"
+  ],
+  "tasks": [
+    {
+      "depends_on": [],
+      "id": "T1",
+      "ref": null,
+      "status": "pending",
+      "title": "Agent 制品骨架与配置"
+    },
+    {
+      "depends_on": [
+        "T1"
+      ],
+      "id": "T2",
+      "ref": null,
+      "status": "pending",
+      "title": "会务 skill 知识库"
+    },
+    {
+      "depends_on": [
+        "T2"
+      ],
+      "id": "T3",
+      "ref": null,
+      "status": "pending",
+      "title": "工具封装与 API 客户端"
+    },
+    {
+      "depends_on": [
+        "T3"
+      ],
+      "id": "T4",
+      "ref": null,
+      "status": "pending",
+      "title": "系统提示词与对话流程"
+    },
+    {
+      "depends_on": [
+        "T4"
+      ],
+      "id": "T5",
+      "ref": null,
+      "status": "pending",
+      "title": "打包部署与验收"
+    }
+  ],
+  "title": "NAC 会务 Agent 制品与工具契约",
+  "updated": "2026-07-31"
+}

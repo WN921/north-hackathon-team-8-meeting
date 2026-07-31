@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.api.deps import current_user, get_repository, require_bearer_token
@@ -26,6 +27,14 @@ app = FastAPI(
         {"name": "Calendar", "description": "日历与时段占用"},
         {"name": "FloorPlan", "description": "平面图状态"},
     ],
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 

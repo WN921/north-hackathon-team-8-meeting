@@ -92,7 +92,7 @@ export default function Page() {
         <div className="grid result-columns">
           <section className="card stack">
             <h2>预约信息</h2>
-            <p><strong>ID：</strong>{booking.id}</p>
+            <p><strong>ID：</strong>{booking.booking_id ?? booking.id}</p>
             <p><strong>目标：</strong>{booking.target_type}:{booking.target_id}</p>
             <p><strong>时间：</strong>{booking.start_at.replace("T", " ")} - {booking.end_at.replace("T", " ")}</p>
             <p><strong>发起人：</strong>{booking.organizer_id}</p>

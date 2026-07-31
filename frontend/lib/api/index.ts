@@ -68,7 +68,8 @@ export type CompositeRoom = {
 };
 
 export type Rule = {
-  id: string;
+  id?: string;
+  rule_id?: string;
   rule_type: string;
   target_type: string;
   target_id: string;
@@ -82,7 +83,8 @@ export type Rule = {
 };
 
 export type Booking = {
-  id: string;
+  id?: string;
+  booking_id?: string;
   target_type: string;
   target_id: string;
   start_at: string;

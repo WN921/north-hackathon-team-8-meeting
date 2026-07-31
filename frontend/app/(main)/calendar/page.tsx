@@ -109,12 +109,12 @@ export default function Page() {
               </thead>
               <tbody>
                 {bookings.map((booking) => (
-                  <tr key={booking.id}>
+                  <tr key={bookingId(booking)}>
                     <td>{booking.title}</td>
                     <td>{booking.target_type}:{booking.target_id}</td>
                     <td>{formatDateTime(booking.start_at)} - {formatTime(booking.end_at)}</td>
                     <td>{booking.status}</td>
-                    <td><Link className="text-link" href={`/bookings/${booking.id}`}>详情</Link></td>
+                    <td><Link className="text-link" href={`/bookings/${bookingId(booking)}`}>详情</Link></td>
                   </tr>
                 ))}
               </tbody>
@@ -128,6 +128,10 @@ export default function Page() {
 
 function formatTime(value: string) {
   return value.includes("T") ? value.slice(11, 16) : value;
+}
+
+function bookingId(booking: Booking) {
+  return booking.booking_id ?? booking.id ?? "";
 }
 
 function formatDateTime(value: string) {

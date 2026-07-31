@@ -92,7 +92,10 @@ export default function Page() {
 
 function statusFill(status: string) {
   if (status === "available") return "#dcfce7";
-  if (status === "unavailable") return "#fee2e2";
-  if (status === "partial") return "#fef3c7";
+  if (status === "booked") return "#fee2e2";
+  if (status === "blocked_by_rule") return "#fef3c7";
+  if (status === "fixed_unavailable") return "#fde68a";
+  if (status === "maintenance") return "#fecaca";
+  if (status === "composite_booked") return "#ddd6fe";
   return "#dbeafe";
 }

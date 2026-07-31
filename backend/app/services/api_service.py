@@ -377,15 +377,36 @@ def floor_plan(repository: MeetingRepository, floor_id: str = DEFAULT_FLOOR_ID, 
             rule = rule_blocks(repository, "room", room.id, start, end)
             conflicts = booking_conflicts(repository, "room", room.id, start, end)
             if rule:
-                status_value = "fixed_unavailable" if rule.fixed else "blocked_by_rule"
                 reason_code = rule.reason_code()
+                if reason_code == "FIXED_UNAVAILABLE":
+                    status_value = "fixed_unavailable"
+                elif reason_code == "TEMPORARY_MAINTENANCE":
+                    status_value = "maintenance"
+                else:
+                    status_value = "blocked_by_rule"
                 message = rule.reason
             elif conflicts:
-                status_value = "booked"
                 reason_code = conflicts[0]["reason_code"]
+                status_value = "composite_booked" if reason_code == "OVERLAPPING_COMPOSITE_BOOKING" else "booked"
                 message = "已有预约"
         room_payload.append({"id": room.id, "name": room.name, "position": room.position.to_dict() if room.position else None, "status": status_value, "reason_code": reason_code, "message": message})
     composite_payload: list[dict[str, Any]] = []
     for composite in composites:
-        composite_payload.append({"id": composite.id, "name": composite.name, "member_room_ids": composite.member_room_ids, "position": composite.position.to_dict() if composite.position else None, "status": "available", "message": "可合并预约"})
+        status_value = "available"
+        reason_code = None
+        message = "可合并预约"
+        if include_status and date and time:
+            start = f"{date}T{time}:00+08:00"
+            end = f"{date}T13:00:00+08:00" if time < "13:00" else f"{date}T14:00:00+08:00"
+            conflicts = booking_conflicts(repository, "composite", composite.id, start, end)
+            rule = rule_blocks(repository, "composite", composite.id, start, end)
+            if rule:
+                reason_code = rule.reason_code()
+                status_value = "fixed_unavailable" if reason_code == "FIXED_UNAVAILABLE" else "maintenance" if reason_code == "TEMPORARY_MAINTENANCE" else "blocked_by_rule"
+                message = rule.reason
+            elif conflicts:
+                reason_code = conflicts[0]["reason_code"]
+                status_value = "composite_booked" if reason_code == "OVERLAPPING_COMPOSITE_BOOKING" else "booked"
+                message = "已有预约"
+        composite_payload.append({"id": composite.id, "name": composite.name, "member_room_ids": composite.member_room_ids, "position": composite.position.to_dict() if composite.position else None, "status": status_value, "reason_code": reason_code, "message": message})
     return {"floor": {"id": floor_id, "name": "5楼"}, "rooms": room_payload, "composites": composite_payload, "member_occupancies": []}

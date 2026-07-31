@@ -109,8 +109,8 @@ export default function Page() {
               </thead>
               <tbody>
                 {rules.map((rule) => (
-                  <tr key={rule.id}>
-                    <td>{rule.id}</td>
+                  <tr key={ruleId(rule)}>
+                    <td>{ruleId(rule)}</td>
                     <td>{rule.rule_type}</td>
                     <td>{rule.target_type}:{rule.target_id}</td>
                     <td>{rule.time_windows.map((window) => `${window.start_at} - ${window.end_at}`).join("；")}</td>
@@ -125,4 +125,8 @@ export default function Page() {
       </section>
     </main>
   );
+}
+
+function ruleId(rule: Rule) {
+  return rule.rule_id ?? rule.id ?? "";
 }

@@ -48,6 +48,35 @@
 └── diagrams/
 ```
 
+## 本地运行
+
+```bash
+# 前端
+cd frontend
+npm install
+npm run dev
+
+# 后端
+cd ../backend
+uv sync
+uv run python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+默认演示登录：`demo` / `demo-password`。
+
+## 前端关键页面索引
+
+- `/login`：本地演示登录。
+- `/`：首页状态概览。
+- `/rooms`：会议室与组合空间列表。
+- `/calendar`：日历/时段视图，支持 `target_type`、`target_id`、`date` 查询。
+- `/bookings`：预约列表。
+- `/bookings/new`：手动创建预约。
+- `/bookings/[id]`：预约详情、修改、取消。
+- `/nl/query`：自然语言预约候选。
+- `/rules`：自然语言规则配置。
+- `/floor-plan`：静态 SVG 平面图。
+
 ## 目录职责
 
 - `docs/deployment.md`：会务系统正式部署手册，覆盖本地开发、演示验收、后端/前端启动、SQLite 初始化、运维和检查清单。

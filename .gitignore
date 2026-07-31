@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+.venv/
+
+# Build outputs
+.next/
+dist/
+build/
+
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local runtime artifacts
+backend/data/
+docs/rfcs/meta/.rfc.lock

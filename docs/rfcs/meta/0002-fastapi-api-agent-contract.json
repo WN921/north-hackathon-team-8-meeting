@@ -9,7 +9,7 @@
     "0001"
   ],
   "rfc": "0002",
-  "status": "draft",
+  "status": "implementing",
   "tags": [
     "backend",
     "api",
@@ -21,7 +21,7 @@
       "depends_on": [],
       "id": "T1",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "建立 FastAPI 项目与 SQLite 连接"
     },
     {

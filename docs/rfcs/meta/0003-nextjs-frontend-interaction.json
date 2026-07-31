@@ -10,7 +10,7 @@
     "0002"
   ],
   "rfc": "0003",
-  "status": "draft",
+  "status": "implemented",
   "tags": [
     "frontend",
     "nextjs",
@@ -21,7 +21,7 @@
       "depends_on": [],
       "id": "T1",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "建立 Next.js 项目与 API Client"
     },
     {
@@ -30,7 +30,7 @@
       ],
       "id": "T2",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "实现登录页与认证状态"
     },
     {
@@ -39,7 +39,7 @@
       ],
       "id": "T3",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "实现会议室列表与日历视图"
     },
     {
@@ -48,7 +48,7 @@
       ],
       "id": "T4",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "实现自然语言配置与预约候选页面"
     },
     {
@@ -58,7 +58,7 @@
       ],
       "id": "T5",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "实现预约创建取消修改流程"
     },
     {
@@ -68,7 +68,7 @@
       ],
       "id": "T6",
       "ref": null,
-      "status": "pending",
+      "status": "implemented",
       "title": "实现静态 SVG 平面图"
     }
   ],

@@ -87,3 +87,5 @@ uv run python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 - `agent/`：NAC Agent 制品目录；当前包含 `meeting-agent/`，用于 NAC 平台调用会务系统工具。
 - `demo/`：演示账号、演示数据、seed 脚本和演示流程。
 - `diagrams/`：架构图、流程图、时序图、平面图源文件。
+
+- `pr/`：Pull Request 分支说明。当前新 PR 分支从这里创建，便于区分功能分支和 PR 分支。
